@@ -1,0 +1,14 @@
+create table cliente (id  bigserial not null, email varchar(255) not null, nome varchar(60) not null, telefone varchar(20) not null, primary key (id));
+create table comentario (id  bigserial not null, date_envio timestamp, descricao varchar(255), ordem_servico_id int8, primary key (id));
+create table ordem_servico (id  bigserial not null, data_abertura timestamp, data_finalizado timestamp, descricao varchar(255), preco numeric(19, 2) not null, status varchar(255), cliente_id int8 not null, primary key (id));
+alter table cliente add constraint UK_cmxo70m08n43599l3h0h07cc6 unique (email);
+alter table cliente add constraint UK_cjamibneobl928lfs71yos48r unique (telefone);
+alter table comentario add constraint FKqry7gyxpl4dgum2cyisihuc1a foreign key (ordem_servico_id) references ordem_servico;
+alter table ordem_servico add constraint FKbgbo9jhvq1cuycsv5tvynn1ig foreign key (cliente_id) references cliente;
+create table cliente (id  bigserial not null, email varchar(255) not null, nome varchar(60) not null, telefone varchar(20) not null, primary key (id));
+create table comentario (id  bigserial not null, date_envio timestamp, descricao varchar(255), ordem_servico_id int8, primary key (id));
+create table ordem_servico (id  bigserial not null, data_abertura timestamp, data_finalizado timestamp, descricao varchar(255), preco numeric(19, 2) not null, status varchar(255), cliente_id int8 not null, primary key (id));
+alter table cliente add constraint UK_cmxo70m08n43599l3h0h07cc6 unique (email);
+alter table cliente add constraint UK_cjamibneobl928lfs71yos48r unique (telefone);
+alter table comentario add constraint FKqry7gyxpl4dgum2cyisihuc1a foreign key (ordem_servico_id) references ordem_servico;
+alter table ordem_servico add constraint FKbgbo9jhvq1cuycsv5tvynn1ig foreign key (cliente_id) references cliente;
