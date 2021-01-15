@@ -53,6 +53,7 @@ public class OrdemServico {
     private OffsetDateTime dataFinalizado;
 
     @OneToMany(mappedBy = "ordemServico")
+    @Builder.Default
     private List<Comentario> comentarios = new ArrayList<>();
 
     public boolean podeSerfinalizada(){
