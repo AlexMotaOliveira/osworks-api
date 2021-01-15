@@ -52,8 +52,7 @@ public class OrdemServico {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataFinalizado;
 
-    @OneToMany(mappedBy = "ordemServico")
-    @Builder.Default
+    @OneToMany(mappedBy = "ordemServico", fetch = FetchType.EAGER)
     private List<Comentario> comentarios = new ArrayList<>();
 
     public boolean podeSerfinalizada(){
