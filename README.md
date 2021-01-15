@@ -1,4 +1,4 @@
-## Projeto realizado no Curso de Spring Rest da AlgaWorks, constrindo uma API Rest OsWorks com SpringBoot.
+## Projeto realizado no Curso de Spring Rest Iniciante da AlgaWorks, construindo uma API Rest OsWorks com SpringBoot.
 
 Foi desenvolvido uma api rest para Ordens de Serviços.
 
