@@ -15,7 +15,7 @@ Foi desenvolvido uma api rest para Ordens de Serviços.
 
 ### Modelo conceitual
 
-![mapa conceitual.png](mapa conceitual.png)
+![img.png](img.png)
 
 ### Padrão de camadas
 
