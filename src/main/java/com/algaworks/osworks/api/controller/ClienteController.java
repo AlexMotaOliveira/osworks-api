@@ -1,33 +1,73 @@
 package com.algaworks.osworks.api.controller;
 
+import com.algaworks.osworks.domain.exception.NegocioException;
 import com.algaworks.osworks.domain.model.Cliente;
+import com.algaworks.osworks.domain.repository.ClienteRepository;
+import com.algaworks.osworks.domain.service.CadastroClienteServise;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("clientes")
 public class ClienteController {
 
-    @GetMapping("/clientes")
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private CadastroClienteServise cadastroClienteServise;
+
+
+    @GetMapping
+    public List<Cliente> Listar() {
+        return clienteRepository.findAll();
+    }
+
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
+
+        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok(cliente.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<Cliente> Listar(){
-        var cliente1 = new Cliente();
-        cliente1.setId(1l);
-        cliente1.setNome("Alex");
-        cliente1.setEmail("alex.mota");
-        cliente1.setTelefone("11970327634");
+    public Cliente criar(@RequestBody @Valid Cliente cliente) throws NegocioException {
+        return cadastroClienteServise.salvar(cliente);
+    }
 
+    @PutMapping("/{clienteId}")
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId,
+                                             @RequestBody @Valid Cliente cliente) throws NegocioException {
 
-        var cliente2 = new Cliente();
-        cliente2.setId(2l);
-        cliente2.setNome("Alan");
-        cliente2.setEmail("daiane.mota");
-        cliente2.setTelefone("11967383998");
+        if(!clienteRepository.existsById(clienteId))
+            return ResponseEntity.notFound().build();
 
-        return Arrays.asList(cliente1,cliente2);
+        cliente.setId(clienteId);
+        cliente = cadastroClienteServise.salvar(cliente);;
+
+        return ResponseEntity.ok(cliente);
+    }
+
+    @DeleteMapping("/{clienteId}")
+    public ResponseEntity<Void> delete(@PathVariable Long clienteId){
+
+        if(!clienteRepository.existsById(clienteId))
+            return ResponseEntity.notFound().build();
+
+        cadastroClienteServise.delete(clienteId);
+
+        return ResponseEntity.noContent().build();
+
     }
 }
